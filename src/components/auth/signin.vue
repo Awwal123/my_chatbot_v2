@@ -1,17 +1,28 @@
 <template>
-  <div class="min-h-screen flex flex-col lg:flex-row">
+  <div class="min-h-screen bg-[#cde5f8]  md:bg-white flex flex-col lg:flex-row">
     <!-- Image Section - Left on desktop, Top on mobile -->
     <div
-      class="w-full lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
+      class="w-full lg:w-1/2 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
     >
-      <!-- Decorative circles (will be replaced with actual image) -->
-      <img :src="Desktopbg" alt="Desktop background" />
+      <!-- Desktop image visible only on lg screens and up -->
+      <img
+        :src="Desktopbg"
+        alt="Desktop background"
+        class="hidden lg:block w-full h-full object-cover"
+      />
+      <!-- Mobile image visible only on small screens -->
+      <img
+        :src="mobilebg"
+        alt="Mobile background"
+        class="block lg:hidden relative w-full h-full object-cover"
+      />
     </div>
 
     <!-- Form Section - Right on desktop, Bottom on mobile -->
     <div
-      class="w-full lg:w-1/2 bg-gray-50 flex items-center justify-center p-6 lg:p-12 order-last lg:order-none"
+      class="w-full lg:w-1/2   flex items-center justify-center p-6 lg:p-12 order-last lg:order-none"
     >
+    <div class="bg-white w-full py-4 px-8 rounded-2xl flex justify-center items-center">
       <button
         @click="closeModal"
         class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10"
@@ -162,6 +173,7 @@
           </div>
         </form>
       </div>
+    </div>
     </div>
   </div>
 </template>
