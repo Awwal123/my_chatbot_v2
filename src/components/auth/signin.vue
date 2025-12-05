@@ -1,48 +1,37 @@
 <template>
-  <div class="min-h-screen bg-[#cde5f8]  md:bg-white flex flex-col lg:flex-row">
+  <div class="min-h-screen bg-[#cde5f8] md:bg-white flex flex-col lg:flex-row">
     <!-- Image Section - Left on desktop, Top on mobile -->
     <div
       class="w-full lg:w-1/2 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
     >
-      <!-- Desktop image visible only on lg screens and up -->
       <img
         :src="Desktopbg"
         alt="Desktop background"
-        class="hidden lg:block w-full h-full object-cover"
+        class="hidden lg:block w-full h-screen object-contain object-left"
       />
-      <!-- Mobile image visible only on small screens -->
+
+      <!-- Mobile image -->
       <img
         :src="mobilebg"
         alt="Mobile background"
-        class="block lg:hidden relative w-full h-full object-cover"
+        class="block lg:hidden relative w-full h-[50%] object-cover"
       />
     </div>
 
-    <!-- Form Section - Right on desktop, Bottom on mobile -->
+    <!-- Form Section - Overlapping on Mobile -->
     <div
-      class="w-full lg:w-1/2   flex items-center justify-center p-6 lg:p-12 order-last lg:order-none"
+      class="w-full lg:w-1/2 flex items-center justify-center px-4 py-10 relative -mt-60 mt- lg:mt-0 z-10"
     >
-    <div class="bg-white w-full py-4 px-8 rounded-2xl flex justify-center items-center">
-      <button
-        @click="closeModal"
-        class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
+      <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl relative">
+        <!-- Close Button -->
 
-      <div class="w-full max-w-md">
+        <!-- Title -->
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
         <p class="text-gray-600 mb-8">Sign in to your account</p>
 
+        <!-- Form -->
         <form @submit.prevent="handleSubmit" class="space-y-5">
-          <!-- Email -->
+          <!-- Email Field -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <div class="relative">
@@ -65,7 +54,7 @@
             </div>
           </div>
 
-          <!-- Password -->
+          <!-- Password Field -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <div class="relative">
@@ -79,12 +68,14 @@
                   />
                 </svg>
               </span>
+
               <input
                 v-model="form.password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Enter your password"
-                class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white text-gray-400"
+                class="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-1 focus:ring-blue-500 bg-white text-gray-400"
               />
+
               <button
                 @click="showPassword = !showPassword"
                 type="button"
@@ -108,26 +99,27 @@
             </div>
           </div>
 
-          <!-- Remember & Forgot Password -->
+          <!-- Remember Me + Forgot Password -->
           <div class="flex items-center justify-between pt-2">
             <div class="flex items-center gap-2">
               <input
-                v-model="form.rememberMe"
                 id="remember"
+                v-model="form.rememberMe"
                 type="checkbox"
-                class="w-5 h-5 bg-blue-600 border-blue-600 rounded cursor-pointer accent-blue-600"
+                class="w-5 h-5 accent-blue-600"
               />
               <label for="remember" class="text-sm text-gray-700 cursor-pointer">Remember me</label>
             </div>
-            <a href="#" class="text-sm text-blue-600 hover:underline font-semibold"
-              >Forgot Password</a
-            >
+
+            <a href="#" class="text-sm text-blue-600 hover:underline font-semibold">
+              Forgot Password
+            </a>
           </div>
 
           <!-- Sign In Button -->
           <button
             type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition-colors mt-6"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
           >
             Sign in
           </button>
@@ -138,16 +130,16 @@
               <div class="w-full border-t border-gray-300"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-gray-50 text-gray-600">or</span>
+              <span class="px-2 bg-white text-gray-600">or</span>
             </div>
           </div>
 
-          <!-- Google Sign In -->
+          <!-- Google -->
           <button
             type="button"
-            class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-full hover:bg-blue-50 transition-colors flex items-center justify-center gap-2"
+            class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-full hover:bg-blue-50 transition flex items-center justify-center gap-2"
           >
-            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
               />
@@ -164,16 +156,15 @@
             Sign in with Google
           </button>
 
-          <!-- Sign Up Link -->
+          <!-- Sign Up -->
           <div class="text-center pt-2">
             <p class="text-gray-700">
-              Don't have an account?
+              Don’t have an account?
               <a href="/signup" class="text-blue-600 hover:underline font-semibold">Sign up</a>
             </p>
           </div>
         </form>
       </div>
-    </div>
     </div>
   </div>
 </template>
