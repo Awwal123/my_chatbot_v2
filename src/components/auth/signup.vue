@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-[#cde5f8] md:bg-white flex flex-col lg:flex-row">
     <!-- Image Section - Left on desktop, Top on mobile -->
     <div
-      class="w-full lg:w-1/2   flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
+      class="w-full lg:w-1/2 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
     >
       <img
         :src="Desktopbg"
@@ -179,7 +179,7 @@
             type="submit"
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
           >
-            Sign up
+            <router-link to="/chat">Sign up</router-link>
           </button>
 
           <!-- Divider -->
