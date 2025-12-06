@@ -160,7 +160,9 @@
           <div class="text-center pt-2">
             <p class="text-gray-700">
               Don’t have an account?
-              <a href="/signup" class="text-blue-600 hover:underline font-semibold">Sign up</a>
+              <router-link to="/signup" class="text-blue-600 hover:underline font-semibold"
+                >Sign up</router-link
+              >
             </p>
           </div>
         </form>
