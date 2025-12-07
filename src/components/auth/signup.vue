@@ -177,9 +177,10 @@
           <!-- Sign Up Button -->
           <button
             type="submit"
+            @click="gotToChat"
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
           >
-            <router-link to="/chat">Sign up</router-link>
+            Sign up
           </button>
 
           <!-- Divider -->
@@ -218,7 +219,9 @@
           <div class="text-center pt-2">
             <p class="text-gray-700">
               Already have an account?
-              <router-link to="/" class="text-blue-600 hover:underline font-semibold">Sign in</router-link>
+              <router-link to="/" class="text-blue-600 hover:underline font-semibold"
+                >Sign in</router-link
+              >
             </p>
           </div>
         </form>
@@ -231,7 +234,13 @@
 import { ref } from 'vue'
 import Desktopbg from '@/assets/images/desktopbg.png'
 import mobilebg from '@/assets/images/mobilebg.png'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
+
+const gotToChat = () => {
+  router.push('/chat')
+}
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const form = ref({
