@@ -177,10 +177,11 @@
           <!-- Sign Up Button -->
           <button
             type="submit"
-            @click="gotToChat"
+            :disabled="loading"
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
           >
-            Sign up
+            <span v-if="!loading">Sign up</span>
+            <span v-else>Creating account...</span>
           </button>
 
           <!-- Divider -->
@@ -235,14 +236,17 @@ import { ref } from 'vue'
 import Desktopbg from '@/assets/images/desktopbg.png'
 import mobilebg from '@/assets/images/mobilebg.png'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { authService } from '@/services/api'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
-
-const gotToChat = () => {
-  router.push('/chat')
-}
+const toast = useToast()
+const authStore = useAuthStore()
+const loading = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
+
 const form = ref({
   fullName: '',
   email: '',
@@ -251,8 +255,44 @@ const form = ref({
   agreeTerms: false,
 })
 
-const handleSubmit = () => {
-  console.log('Form submitted:', form.value)
+const handleSubmit = async () => {
+  if (loading.value) return
+
+  if (form.value.password !== form.value.confirmPassword) {
+    toast.error('Passwords do not match')
+    return
+  }
+
+  if (!form.value.agreeTerms) {
+    toast.error('You must agree to the terms')
+    return
+  }
+
+  loading.value = true
+
+  try {
+    const res = await authService.registerUser({
+      name: form.value.fullName,
+      email: form.value.email,
+      password: form.value.password,
+      password_confirmation: form.value.confirmPassword,
+    })
+
+    const { user, token } = res.data.data
+
+    authStore.setAuth(token, {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    })
+
+    toast.success('Account created successfully')
+    router.push('/chat')
+  } catch (err) {
+    toast.error(err?.response?.data?.message || 'Registration failed')
+  } finally {
+    loading.value = false
+  }
 }
 
 const closeModal = () => {

@@ -119,9 +119,11 @@
           <!-- Sign In Button -->
           <button
             type="submit"
+            :disabled="loading"
             class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-full transition"
           >
-            Sign in
+            <span v-if="!loading">Login</span>
+            <span v-else>Logging in...</span>
           </button>
 
           <!-- Divider -->
@@ -175,19 +177,50 @@
 import { ref } from 'vue'
 import Desktopbg from '@/assets/images/desktopbg.png'
 import mobilebg from '@/assets/images/mobilebg.png'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { authService } from '@/services/api'
+import { useAuthStore } from '@/stores/auth'
 
+const router = useRouter()
+const toast = useToast()
+const authStore = useAuthStore()
+const loading = ref(false)
 const showPassword = ref(false)
+
 const form = ref({
   email: '',
   password: '',
   rememberMe: false,
 })
 
-const handleSubmit = () => {
-  console.log('Login submitted:', form.value)
-  // Add your login logic here
-}
+const handleSubmit = async () => {
+  if (loading.value) return
 
+  loading.value = true
+
+  try {
+    const res = await authService.loginUser({
+      email: form.value.email,
+      password: form.value.password,
+    })
+
+    const { user, token } = res.data.data
+
+    authStore.setAuth(token, {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    })
+
+    toast.success('Logged in successfully')
+    router.push('/chat')
+  } catch (err) {
+    toast.error(err?.response?.data?.message || 'Login failed')
+  } finally {
+    loading.value = false
+  }
+}
 const closeModal = () => {
   // Add close logic here
 }
