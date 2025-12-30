@@ -162,7 +162,7 @@
           <div class="text-center pt-2">
             <p class="text-gray-700">
               Don’t have an account?
-              <router-link to="/signup" class="text-blue-600 hover:underline font-semibold"
+              <router-link to="/auth/signup" class="text-blue-600 hover:underline font-semibold"
                 >Sign up</router-link
               >
             </p>
@@ -173,7 +173,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import Desktopbg from '@/assets/images/desktopbg.png'
 import mobilebg from '@/assets/images/mobilebg.png'
@@ -196,7 +196,6 @@ const form = ref({
 
 const handleSubmit = async () => {
   if (loading.value) return
-
   loading.value = true
 
   try {
@@ -207,21 +206,22 @@ const handleSubmit = async () => {
 
     const { user, token } = res.data.data
 
-    authStore.setAuth(token, {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    })
+  
+    authStore.setAuth(
+      { token, user: { id: user.id, name: user.name, email: user.email } },
+      form.value.rememberMe
+    )
+
+        console.log('After login - authStore state:', authStore.$state)
 
     toast.success('Logged in successfully')
-    router.push('/chat')
-  } catch (err) {
+    router.replace('/chat')
+  } catch (err: any) {
     toast.error(err?.response?.data?.message || 'Login failed')
   } finally {
     loading.value = false
   }
 }
-const closeModal = () => {
-  // Add close logic here
-}
+
+
 </script>

@@ -220,7 +220,7 @@
           <div class="text-center pt-2">
             <p class="text-gray-700">
               Already have an account?
-              <router-link to="/" class="text-blue-600 hover:underline font-semibold"
+              <router-link to="/auth/signin" class="text-blue-600 hover:underline font-semibold"
                 >Sign in</router-link
               >
             </p>
@@ -280,14 +280,20 @@ const handleSubmit = async () => {
 
     const { user, token } = res.data.data
 
-    authStore.setAuth(token, {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    })
-
+    authStore.setAuth(
+      {
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
+      },
+      form.value.rememberMe,
+    )
+    console.log('After signup - authStore state:', authStore.$state)
     toast.success('Account created successfully')
-    router.push('/chat')
+    router.replace('/chat')
   } catch (err) {
     toast.error(err?.response?.data?.message || 'Registration failed')
   } finally {

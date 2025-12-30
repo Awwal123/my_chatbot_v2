@@ -1,17 +1,39 @@
 <template>
-  <div ref="messagesContainer" class="flex-1 overflow-y-auto px-4 py-6 md:px-8 space-y-4 flex flex-col bg-white dark:bg-gray-800 transition-colors duration-300">
-    <div v-if="messages.length === 0" class="flex items-center justify-center h-full">
-      <p class="text-gray-500 dark:text-gray-400 text-lg">Start a conversation</p>
+  <div
+    ref="messagesContainer"
+    class="flex-1 overflow-y-auto px-4 py-6 space-y-4 flex flex-col bg-white dark:bg-gray-800"
+  >
+   <div v-if="loading" class="space-y-4 mt-6">
+  <div v-for="n in 6" :key="n" class="flex">
+    <div
+      class="animate-pulse h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700"
+    />
+  </div>
+</div>
+
+
+    <div
+      v-else-if="messages.length === 0"
+      class="flex items-center justify-center h-full"
+    >
+      <p class="text-gray-500">Start a conversation</p>
     </div>
 
-    <div v-for="msg in messages" :key="msg.id" :class="['flex', msg.role === 'user' ? 'justify-end' : 'justify-start']">
+    <div
+      v-for="msg in messages"
+      :key="msg.id"
+      :class="['flex', msg.role === 'user' ? 'justify-end' : 'justify-start']"
+    >
       <div
         :class="[
-          'max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 rounded-lg',
-          msg.role === 'user' ? 'bg-blue-600 text-white rounded-2xl' : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-2xl'
+          'max-w-lg px-4 py-2 rounded-2xl prose dark:prose-invert',
+          msg.role === 'user'
+            ? 'bg-blue-600 text-white'
+            : 'bg-gray-100 dark:bg-gray-700'
         ]"
       >
-        <p class="text-sm md:text-base">{{ msg.content }}</p>
+        <div v-if="msg.role === 'assistant'" v-html="md.render(msg.content)" />
+        <p v-else>{{ msg.content }}</p>
       </div>
     </div>
   </div>
@@ -19,6 +41,7 @@
 
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue'
+import MarkdownIt from 'markdown-it'
 
 interface Message {
   id: string
@@ -26,14 +49,26 @@ interface Message {
   content: string
 }
 
-const props = defineProps<{ messages: Message[] }>()
+defineProps<{
+  messages: Message[]
+  loading: boolean
+}>()
+
 const messagesContainer = ref<HTMLElement | null>(null)
 
+const md = new MarkdownIt({
+  linkify: true,
+  typographer: true,
+})
+
 watch(
-  () => props.messages.length,
+  () => messagesContainer.value,
   async () => {
     await nextTick()
-    if (messagesContainer.value) messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight
+    messagesContainer.value?.scrollTo({
+      top: messagesContainer.value.scrollHeight,
+      behavior: 'smooth',
+    })
   }
 )
 </script>

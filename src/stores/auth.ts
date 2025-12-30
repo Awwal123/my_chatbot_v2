@@ -1,34 +1,50 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 type User = {
-  id: number;
-  name: string;
-  email: string;
-};
+  id: number
+  name: string
+  email: string
+}
 
-export const useAuthStore = defineStore("auth", {
+type AuthPayload = {
+  token: string
+  user: User
+}
+
+export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem("token") as string | null,
-    user: localStorage.getItem("user")
-      ? (JSON.parse(localStorage.getItem("user")!) as User)
-      : null,
+    token: null as string | null,
+    user: null as User | null,
   }),
 
-  actions: {
-    setAuth(token: string, user: User) {
-      this.token = token;
-      this.user = user;
+  getters: {
+    isAuthenticated: (state) => !!state.token,
+  },
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+  actions: {
+    setAuth(payload: AuthPayload, remember = true) {
+      this.token = payload.token
+      this.user = payload.user
+
+      localStorage.setItem('auth', JSON.stringify(payload))
+      console.log('LocalStorage auth:', localStorage.getItem('auth'))
+    },
+
+    hydrate() {
+      const saved = localStorage.getItem('auth')
+      console.log('Saved auth from localStorage:', saved)
+      if (!saved) return
+
+      const parsed = JSON.parse(saved) as AuthPayload
+      console.log('Parsed auth:', parsed)
+      this.token = parsed.token
+      this.user = parsed.user
     },
 
     logout() {
-      this.token = null;
-      this.user = null;
-
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      this.token = null
+      this.user = null
+      localStorage.removeItem('auth')
     },
   },
-});
+})
