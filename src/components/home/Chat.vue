@@ -9,11 +9,11 @@
       ]"
     >
       <SideBar
+        :chats="chats"
         @close="sidebarOpen = false"
         @new-chat="handleNewChat"
         @open-user-modal="showUserModal = true"
         @select-chat="handleSelectChat"
-        @refresh-chats="refreshChats"
       />
     </div>
 
@@ -23,7 +23,6 @@
       class="fixed inset-0 z-40 bg-black/50 md:hidden"
       @click="sidebarOpen = false"
     />
-
 
     <div
       v-if="showUserModal"
@@ -55,7 +54,6 @@
       </div>
     </div>
 
-    
     <div
       v-if="showLogoutConfirm"
       class="fixed inset-0 z-[110] flex items-center justify-center bg-black/50"
@@ -67,7 +65,7 @@
         <button
           @click="confirmLogout"
           :disabled="isLoggingOut"
-          class="w-full px-4 py-2 bg-red-600 text-white rounded-lg disabled:opacity-50"
+          class="w-full px-4 py-2 mb-5 bg-red-600 text-white rounded-lg disabled:opacity-50"
         >
           <span v-if="isLoggingOut">Logging out...</span>
           <span v-else>Log out</span>
@@ -103,12 +101,8 @@
         </button>
       </div>
 
-      <ChatArea
-        :messages="messages"
-        :loading="isChatLoading"
-      />
+      <ChatArea :messages="messages" :loading="isChatLoading" />
 
-     
       <MessageInput :disabled="isAiLoading" @send-message="handleSendMessage" />
     </div>
   </div>
@@ -157,12 +151,10 @@ const toggleDarkMode = () => {
   document.documentElement.classList.toggle('dark', isDark.value)
 }
 
-
 const refreshChats = async () => {
   const res = await chatService.getChats()
   chats.value = res.data.data ?? []
 }
-
 
 const loadChatById = async (id: number) => {
   if (currentChatId.value === id) return
@@ -182,7 +174,7 @@ const loadChatById = async (id: number) => {
         content: m.message,
       }))
 
-    const chat = chats.value.find(c => c.id === id)
+    const chat = chats.value.find((c) => c.id === id)
     if (chat) currentChatTitle.value = chat.title
   } catch {
     toast.error('Failed to load chat')
@@ -196,7 +188,6 @@ const handleSelectChat = (chat: Chat) => {
   router.push(`/chat/${chat.id}`)
 }
 
-
 const handleNewChat = () => {
   router.push('/chat')
   currentChatId.value = null
@@ -204,7 +195,6 @@ const handleNewChat = () => {
   messages.value = []
   sidebarOpen.value = false
 }
-
 
 const handleSendMessage = async (content: string) => {
   if (!content.trim() || isAiLoading.value) return
@@ -236,7 +226,7 @@ const handleSendMessage = async (content: string) => {
       message: content,
     })
 
-    messages.value = messages.value.filter(m => m.id !== typingId)
+    messages.value = messages.value.filter((m) => m.id !== typingId)
     messages.value.push({
       id: res.data.data.ai_message.id.toString(),
       role: 'assistant',
@@ -246,7 +236,6 @@ const handleSendMessage = async (content: string) => {
     isAiLoading.value = false
   }
 }
-
 
 const confirmLogout = async () => {
   if (isLoggingOut.value) return
@@ -268,7 +257,6 @@ onMounted(async () => {
   if (id) loadChatById(id)
 })
 
-
 watch(
   () => route.params.id,
   (id) => {
@@ -278,6 +266,6 @@ watch(
       currentChatTitle.value = 'New Chat'
       messages.value = []
     }
-  }
+  },
 )
 </script>

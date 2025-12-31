@@ -1,8 +1,9 @@
 import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '@/stores/auth'
+import router from '@/router'
 
 const AXIOS = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: 'https://prompt-flow-backend-ccw2.onrender.com/api',
   headers: {
     Accept: 'application/json',          
     'Content-Type': 'application/json',  
@@ -26,7 +27,18 @@ AXIOS.interceptors.response.use(
   (response) => response,
   (error: AxiosError<any>) => {
     const message = error.response?.data?.message || 'Something went wrong'
-    console.error('[API ERROR]', message)
+    return Promise.reject(error)
+  }
+)
+
+AXIOS.interceptors.response.use(
+  (response) => response,
+  (error: AxiosError<any>) => {
+    const authStore = useAuthStore()
+    if (error.response?.status === 401) {
+      authStore.logout()
+      router.push('/auth/signin')
+    }
     return Promise.reject(error)
   }
 )
@@ -51,19 +63,10 @@ export const authService = {
 }
 
 export const chatService = {
-  // Fetch all chats
   getChats: () => AXIOS.get('/chats'),
-
-  // Create a new chat
   createChat: (payload: { title: string }) => AXIOS.post('/chats', payload),
-
-  // Delete a chat
   deleteChat: (chatId: number | string) => AXIOS.delete(`/chats/${chatId}`),
-
-  // Fetch messages for a specific chat
   getMessages: (chatId: number | string) => AXIOS.get(`/chats/${chatId}/messages`),
-
-  // Send a message in a specific chat
 sendMessage: (chatId: number | string, payload: { message: string }) =>
   AXIOS.post(`/chats/${chatId}/messages`, payload),
 }

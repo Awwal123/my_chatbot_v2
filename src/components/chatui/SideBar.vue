@@ -193,4 +193,8 @@ watch(
     emit('refresh-chats')
   }
 )
+
+defineProps<{
+  chats: Chat[]
+}>()
 </script>

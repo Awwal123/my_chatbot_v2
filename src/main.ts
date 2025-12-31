@@ -8,7 +8,7 @@ import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import { useAuthStore } from './stores/auth'
 
-// Initialize theme from localStorage
+
 const savedTheme = localStorage.getItem('theme')
 if (savedTheme === 'dark') {
   document.documentElement.classList.add('dark')
@@ -27,11 +27,11 @@ app.use(Toast, {
   pauseOnHover: true,
 })
 
-// HYDRATE AUTH STORE BEFORE MOUNT
+
 const authStore = useAuthStore()
 authStore.hydrate()
 
-// Log Pinia state after hydration
+
 console.log('Auth store after hydration:', authStore.$state)
 
 app.mount('#app')
