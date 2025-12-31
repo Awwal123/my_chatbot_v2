@@ -6,7 +6,7 @@
     <div
       class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"
     >
-      <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">Chat History</h2>
+      <h2 class="text-xl pt-1 font-bold text-gray-900 dark:text-gray-100">Chat History</h2>
       <button
         @click="emit('close')"
         class="md:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
@@ -15,7 +15,6 @@
       </button>
     </div>
 
-    <!-- New Chat -->
     <button
       @click="emit('new-chat')"
       class="m-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium flex items-center justify-center gap-2"
@@ -23,7 +22,7 @@
       ＋ New Chat
     </button>
 
-    <!-- Search -->
+
     <div class="px-4 py-2">
       <input
         v-model="searchQuery"
@@ -34,7 +33,6 @@
 
     <!-- Chat List -->
     <div class="flex-1 overflow-y-auto px-4 py-2">
-      <!-- Loading -->
       <div v-if="loading">
         <div
           v-for="n in 5"
@@ -43,12 +41,11 @@
         />
       </div>
 
-      <!-- Empty -->
       <p v-else-if="filteredChats.length === 0" class="text-center text-gray-500 mt-6">
         No chats found
       </p>
 
-      <!-- Chats -->
+ 
       <div
         v-for="chat in filteredChats"
         :key="chat.id"
@@ -73,12 +70,12 @@
       </div>
     </div>
 
-    <!-- User Profile -->
+  
     <div
       @click="emit('open-user-modal')"
       class="p-4 border-t bg-gray-100 flex items-center gap-4 dark:bg-gray-800 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
     >
-      <div class="h-12 w-12 flex justify-center items-center bg-blue-600 rounded-full p-4">
+      <div class="h-12 w-12 flex justify-center items-center bg-blue-600 rounded-full p-4 ">
         {{ userInitials }}
       </div>
       <div>
@@ -87,8 +84,6 @@
       </div>
     </div>
 
-    <!-- Resize Handle -->
-    <div class="absolute top-0 right-0 w-1 h-full cursor-col-resize bg-gray-300 dark:bg-gray-600" />
   </div>
 </template>
 

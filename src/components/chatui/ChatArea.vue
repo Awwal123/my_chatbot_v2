@@ -11,7 +11,6 @@
   </div>
 </div>
 
-
     <div
       v-else-if="messages.length === 0"
       class="flex items-center justify-center h-full"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-4 md:px-8 flex-shrink-0 transition-colors duration-300"
+    class=" bg-white dark:bg-gray-800 px-4 py-4 md:px-8 flex-shrink-0 transition-colors duration-300"
   >
     <div class="flex gap-3">
       <input
