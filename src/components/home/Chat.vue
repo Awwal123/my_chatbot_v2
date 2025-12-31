@@ -90,7 +90,8 @@
             ☰
           </button>
 
-          <h1 class="text-lg font-semibold">{{ currentChatTitle }}</h1>
+          <!-- <h1 class="text-lg font-semibold">{{ currentChatTitle }}</h1> -->
+          <h1 class="text-lg font-semibold">PromptFlow</h1>
         </div>
 
         <button

@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#cde5f8] md:bg-white flex flex-col lg:flex-row">
-    <!-- Image Section - Left on desktop, Top on mobile -->
     <div
       class="w-full lg:w-1/2 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
     >
@@ -10,7 +9,6 @@
         class="hidden lg:block w-full h-screen object-contain object-left"
       />
 
-      <!-- Mobile image -->
       <img
         :src="mobilebg"
         alt="Mobile background"
@@ -18,12 +16,11 @@
       />
     </div>
 
-    <!-- Form Section - Overlapping on Mobile -->
     <div
       class="w-full lg:w-1/2 flex items-center justify-center px-4 py-10 relative -mt-60 mt- lg:mt-0 z-10"
     >
       <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl relative">
-        <!-- Close Button -->
+
 
         <!-- Title -->
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
@@ -31,7 +28,6 @@
 
         <!-- Form -->
         <form @submit.prevent="handleSubmit" class="space-y-5">
-          <!-- Email Field -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <div class="relative">
@@ -54,7 +50,7 @@
             </div>
           </div>
 
-          <!-- Password Field -->
+   
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <div class="relative">
@@ -99,7 +95,6 @@
             </div>
           </div>
 
-          <!-- Remember Me + Forgot Password -->
           <div class="flex items-center justify-between pt-2">
             <div class="flex items-center gap-2">
               <input
@@ -116,7 +111,7 @@
             </a>
           </div>
 
-          <!-- Sign In Button -->
+
           <button
             type="submit"
             :disabled="loading"
@@ -126,7 +121,7 @@
             <span v-else>Logging in...</span>
           </button>
 
-          <!-- Divider -->
+
           <div class="relative py-4">
             <div class="absolute inset-0 flex items-center">
               <div class="w-full border-t border-gray-300"></div>
@@ -136,7 +131,7 @@
             </div>
           </div>
 
-          <!-- Google -->
+
           <button
             type="button"
             class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-full hover:bg-blue-50 transition flex items-center justify-center gap-2"
@@ -158,7 +153,7 @@
             Sign in with Google
           </button>
 
-          <!-- Sign Up -->
+    
           <div class="text-center pt-2">
             <p class="text-gray-700">
               Don’t have an account?

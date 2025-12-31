@@ -67,7 +67,7 @@ export const chatService = {
   createChat: (payload: { title: string }) => AXIOS.post('/chats', payload),
   deleteChat: (chatId: number | string) => AXIOS.delete(`/chats/${chatId}`),
   getMessages: (chatId: number | string) => AXIOS.get(`/chats/${chatId}/messages`),
-sendMessage: (chatId: number | string, payload: { message: string }) =>
+  sendMessage: (chatId: number | string, payload: { message: string }) =>
   AXIOS.post(`/chats/${chatId}/messages`, payload),
 }
 

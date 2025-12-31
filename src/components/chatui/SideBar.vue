@@ -3,7 +3,6 @@
     ref="sidebar"
     class="flex flex-col h-full bg-white dark:bg-gray-900 transition-colors duration-300 relative"
   >
-    <!-- Header -->
     <div
       class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700"
     >

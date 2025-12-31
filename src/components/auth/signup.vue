@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen bg-[#cde5f8] md:bg-white flex flex-col lg:flex-row">
-    <!-- Image Section - Left on desktop, Top on mobile -->
     <div
       class="w-full lg:w-1/2 flex items-center justify-center min-h-72 lg:min-h-screen relative overflow-hidden order-first lg:order-none"
     >
@@ -10,26 +9,20 @@
         class="hidden lg:block w-full h-screen object-contain object-left"
       />
 
-      <!-- Mobile image -->
       <img
         :src="mobilebg"
         alt="Mobile background"
         class="block lg:hidden relative w-full h-[50%] object-cover"
       />
     </div>
-
-    <!-- Form Section - Overlapping on Mobile -->
     <div
       class="w-full lg:w-1/2 flex items-center justify-center px-4 py-10 relative -mt-60 md:mt-0 z-10"
     >
       <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl relative">
-        <!-- Title -->
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Get Started</h1>
         <p class="text-gray-600 mb-8">Create your account</p>
 
-        <!-- Form -->
         <form @submit.prevent="handleSubmit" class="space-y-5">
-          <!-- Full Name -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
             <div class="relative">
@@ -51,8 +44,6 @@
               />
             </div>
           </div>
-
-          <!-- Email -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
             <div class="relative">
@@ -75,7 +66,6 @@
             </div>
           </div>
 
-          <!-- Password -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <div class="relative">
@@ -118,7 +108,6 @@
             </div>
           </div>
 
-          <!-- Confirm Password -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
             <div class="relative">
@@ -161,7 +150,6 @@
             </div>
           </div>
 
-          <!-- Terms Checkbox -->
           <div class="flex items-center gap-2 pt-2">
             <input
               v-model="form.agreeTerms"
@@ -174,7 +162,6 @@
             </label>
           </div>
 
-          <!-- Sign Up Button -->
           <button
             type="submit"
             :disabled="loading"
@@ -184,7 +171,7 @@
             <span v-else>Creating account...</span>
           </button>
 
-          <!-- Divider -->
+
           <div class="relative py-4">
             <div class="absolute inset-0 flex items-center">
               <div class="w-full border-t border-gray-300"></div>
@@ -194,7 +181,7 @@
             </div>
           </div>
 
-          <!-- Google Sign Up -->
+
           <button
             type="button"
             class="w-full border-2 border-blue-600 text-blue-600 font-semibold py-3 rounded-full hover:bg-blue-50 transition flex items-center justify-center gap-2"
