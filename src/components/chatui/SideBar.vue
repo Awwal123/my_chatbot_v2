@@ -2,7 +2,6 @@
   <div
     ref="sidebar"
     class="flex flex-col h-full bg-white dark:bg-gray-900 transition-colors duration-300 relative"
-   
   >
     <!-- Header -->
     <div
@@ -90,9 +89,7 @@
     </div>
 
     <!-- Resize Handle -->
-    <div
-      class="absolute top-0 right-0 w-1 h-full cursor-col-resize bg-gray-300 dark:bg-gray-600"
-    />
+    <div class="absolute top-0 right-0 w-1 h-full cursor-col-resize bg-gray-300 dark:bg-gray-600" />
   </div>
 </template>
 
@@ -125,32 +122,24 @@ const chats = ref<Chat[]>([])
 const searchQuery = ref('')
 const loading = ref(false)
 
-
 const userName = ref(authStore.user?.name ?? '')
 const userEmail = ref(authStore.user?.email ?? '')
 
-
-const activeChatId = computed(() =>
-  route.params.id ? Number(route.params.id) : null
-)
+const activeChatId = computed(() => (route.params.id ? Number(route.params.id) : null))
 
 const userInitials = computed(() => {
   if (!userName.value) return ''
   return userName.value
     .split(' ')
     .filter(Boolean)
-    .map(word => word[0])
+    .map((word) => word[0])
     .join('')
     .toUpperCase()
 })
 
-
 const filteredChats = computed(() =>
-  chats.value.filter(chat =>
-    chat.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
+  chats.value.filter((chat) => chat.title.toLowerCase().includes(searchQuery.value.toLowerCase())),
 )
-
 
 const fetchChats = async () => {
   loading.value = true
@@ -173,7 +162,7 @@ const selectChat = (chat: Chat) => {
 const handleDeleteChat = async (chatId: number) => {
   try {
     await chatService.deleteChat(chatId)
-    chats.value = chats.value.filter(c => c.id !== chatId)
+    chats.value = chats.value.filter((c) => c.id !== chatId)
 
     if (activeChatId.value === chatId) {
       emit('new-chat')
@@ -190,10 +179,9 @@ onMounted(fetchChats)
 watch(
   () => route.fullPath,
   () => {
-    emit('refresh-chats')
-  }
+    fetchChats()
+  },
 )
-
 defineProps<{
   chats: Chat[]
 }>()
