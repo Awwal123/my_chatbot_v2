@@ -282,7 +282,7 @@ const handleSubmit = async () => {
     toast.success('Account created successfully')
     router.replace('/chat')
   } catch (err) {
-    toast.error(err?.response?.data?.message || 'Registration failed')
+    // toast.error(err?.response?.data?.message || 'Registration failed')
   } finally {
     loading.value = false
   }

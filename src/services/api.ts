@@ -1,12 +1,14 @@
 import axios, { AxiosError } from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import router from '@/router'
+import { useToast } from 'vue-toastification'
 
+const toast = useToast()
 const AXIOS = axios.create({
   baseURL: 'https://prompt-flow-backend-ccw2.onrender.com/api',
   headers: {
-    Accept: 'application/json',          
-    'Content-Type': 'application/json',  
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
   },
 })
 
@@ -14,21 +16,21 @@ AXIOS.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore()
     authStore.hydrate()
-
     if (authStore.token) {
       config.headers.Authorization = `Bearer ${authStore.token}`
     }
 
     return config
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 )
 AXIOS.interceptors.response.use(
   (response) => response,
   (error: AxiosError<any>) => {
     const message = error.response?.data?.message || 'Something went wrong'
+    toast.error(message)
     return Promise.reject(error)
-  }
+  },
 )
 
 AXIOS.interceptors.response.use(
@@ -40,7 +42,7 @@ AXIOS.interceptors.response.use(
       router.push('/auth/signin')
     }
     return Promise.reject(error)
-  }
+  },
 )
 
 export type SignupRequest = {
@@ -55,7 +57,6 @@ export type LoginRequest = {
   password: string
 }
 
-
 export const authService = {
   registerUser: (request: SignupRequest) => AXIOS.post('/auth/register', request),
   loginUser: (request: LoginRequest) => AXIOS.post('/auth/login', request),
@@ -68,7 +69,7 @@ export const chatService = {
   deleteChat: (chatId: number | string) => AXIOS.delete(`/chats/${chatId}`),
   getMessages: (chatId: number | string) => AXIOS.get(`/chats/${chatId}/messages`),
   sendMessage: (chatId: number | string, payload: { message: string }) =>
-  AXIOS.post(`/chats/${chatId}/messages`, payload),
+    AXIOS.post(`/chats/${chatId}/messages`, payload),
 }
 
 export default AXIOS

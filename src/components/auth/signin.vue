@@ -212,7 +212,7 @@ const handleSubmit = async () => {
     toast.success('Logged in successfully')
     router.replace('/chat')
   } catch (err: any) {
-    toast.error(err?.response?.data?.message || 'Login failed')
+    // toast.error(err?.response?.data?.message || 'Login failed')
   } finally {
     loading.value = false
   }

@@ -23,7 +23,7 @@
     </button>
 
 
-    <div class="px-4 py-2">
+    <div class="px-3 py-3">
       <input
         v-model="searchQuery"
         placeholder="Search chats"
@@ -50,7 +50,7 @@
         v-for="chat in filteredChats"
         :key="chat.id"
         @click="selectChat(chat)"
-        class="py-2 px-3 mb-2 rounded-lg cursor-pointer flex items-center justify-between group transition-colors"
+        class="py-1 px-3 mb-2 rounded-lg cursor-pointer flex items-center justify-between group transition-colors"
         :class="
           chat.id === activeChatId
             ? 'bg-blue-600 text-white'
